@@ -1,0 +1,21 @@
+<div class="container mt-5">
+  <h3 class="mb-4">Products in This Order</h3>
+  <a href="/view-orders" class="btn btn-secondary mb-3">
+  ← Back to Orders
+</a>
+
+  <div class="row">
+    {{#each products}}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="/product-images/{{this._id}}.jpg" class="card-img-top" alt="{{this.Name}}">
+          <div class="card-body">
+            <h5 class="card-title">{{this.Name}}</h5>
+            <p class="card-text">Price: ₹{{this.Price}}</p>
+            <p class="card-text">Quantity: {{this.quantity}}</p>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

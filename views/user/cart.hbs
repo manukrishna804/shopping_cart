@@ -1,0 +1,42 @@
+<section>
+  <div class="container">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+          <td>
+            <img style="width:70px; height:70px;" src="/product-images/{{this._id}}.jpg" alt="">
+          </td>
+          <td>{{this.Title}}</td>
+          <td>₹{{this.Price}}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" onclick="decrementQuantity('{{this._id}}')">-</button>
+            <span id="{{this._id}}" class="mx-2">{{this.quantity}}</span>
+            <button class="btn btn-sm btn-secondary" onclick="incrementQuantity('{{this._id}}')">+</button>
+          </td>
+          <td>
+            <a href="/remove-from-cart/{{this._id}}" class="btn btn-danger">Remove</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    
+    {{#if products}}
+    <div class="float-right">
+      <h4>Total: <span id="total">₹{{total}}</span></h4>
+     <a href="/place-order" class="btn btn-primary">Place Order</a>
+
+    </div>
+    {{/if}}
+  </div>
+</section>

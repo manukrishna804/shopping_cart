@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Your Orders</h2>
+    <a href="/" class="btn btn-success">➕ Add Products</a>
+  </div>
+
+  {{#if orders.length}}
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Date</th>
+          <th>Address</th>
+          <th>Pincode</th>
+          <th>Mobile</th>
+          <th>Amount</th>
+          <th>Payment</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+          <tr>
+            <td>{{this.formattedDate}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.pincode}}</td>
+            <td>{{this.mobile}}</td>
+            <td>₹{{this.total}}</td>
+            <td>{{this.paymentMethod}}</td>
+            <td>
+  <a href="/view-order-products/{{this._id}}" class="btn btn-primary btn-sm">View Products</a>
+</td>
+
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p class="text-muted">You haven't placed any orders yet.</p>
+  {{/if}}
+</div>

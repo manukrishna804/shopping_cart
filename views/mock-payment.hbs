@@ -1,0 +1,27 @@
+<h2 class="text-center">Mock Payment Gateway</h2>
+<div class="container" style="max-width: 600px;">
+  <p><strong>Total to Pay: ₹{{order.total}}</strong></p>
+  <p><strong>Address:</strong> {{order.address}}</p>
+  <p><strong>Pincode:</strong> {{order.pincode}}</p>
+  <p><strong>Mobile:</strong> {{order.mobile}}</p>
+
+  <hr>
+
+  <h5>Select Bank</h5>
+  <select class="form-control mb-3">
+    <option>State Bank of India</option>
+    <option>HDFC Bank</option>
+    <option>ICICI Bank</option>
+    <option>Axis Bank</option>
+  </select>
+
+  <h5>Account Number</h5>
+  <input class="form-control mb-3" type="text" placeholder="Enter Account Number">
+
+  <h5>OTP</h5>
+  <input class="form-control mb-3" type="text" placeholder="Enter OTP">
+
+  <a href="/order-success?userId={{order.userId}}" class="btn btn-success">Pay Now</a>
+
+  <a href="/view-orders" class="btn btn-secondary">Cancel</a>
+</div>

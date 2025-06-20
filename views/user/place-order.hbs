@@ -1,0 +1,69 @@
+<h2 class="text-center">enter delivery details</h2>
+
+<form action="/place-order" id="checkout-form" method="post" style="max-width: 500px; margin: auto;">
+
+  <h4>Shipping Information</h4>
+  <div class="form-group">
+    <label>Address</label>
+    <input type="text" name="address" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label>Pincode</label>
+    <input type="text" name="pincode" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label>Mobile</label>
+    <input type="text" name="mobile" class="form-control" required>
+    <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+
+  </div>
+
+  <hr>
+
+  <h4>Order Summary</h4>
+  <p><strong>Total Amount: ₹{{total}}</strong></p>
+
+  <input type="hidden" name="total" value="{{total}}">
+
+  <h5>Payment Method</h5>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="payment-method" value="COD" id="cod" checked>
+    <label class="form-check-label" for="cod">
+      Cash on Delivery (COD)
+    </label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="payment-method" value="ONLINE" id="online">
+    <label class="form-check-label" for="online">
+      Online Payment
+    </label>
+  </div>
+
+  <br>
+  <button type="submit" class="btn btn-success btn-block">Checkout</button>
+
+</form>
+<script>
+  $("#checkout-form").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+      url: '/place-order',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+        if (response.cod) {
+          window.location.href = '/order-success';
+        } else if (response.online && response.redirectUrl) {
+          window.location.href = response.redirectUrl; // ✅ redirect to mock-payment
+        } else {
+          alert("Unexpected response.");
+        }
+      }
+    });
+  });
+</script>
+
+
