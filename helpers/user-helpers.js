@@ -13,6 +13,52 @@ async function getCartItems(userId) {
     return [];
   }
 }
+const incrementQuantity = async (productId, userId) => {
+  return db.get().collection(collection.CART_COLLECTION).updateOne(
+    {
+      user: new ObjectId(userId),
+      'products.item': new ObjectId(productId)
+    },
+    {
+      $inc: {
+        'products.$.quantity': 1
+      }
+    }
+  );
+};
+
+const decrementQuantity = async (productId, userId) => {
+  const userCart = await db.get().collection(collection.CART_COLLECTION).findOne({
+    user: new ObjectId(userId),
+    'products.item': new ObjectId(productId)
+  });
+
+  const product = userCart?.products.find(p => p.item.toString() === productId);
+
+  if (product && product.quantity <= 1) {
+    // Remove the product from cart if quantity is 1 or less
+    await db.get().collection(collection.CART_COLLECTION).updateOne(
+      { user: new ObjectId(userId) },
+      { $pull: { products: { item: new ObjectId(productId) } } }
+    );
+    return { removeProduct: true };
+  } else {
+    // Decrease quantity
+    await db.get().collection(collection.CART_COLLECTION).updateOne(
+      {
+        user: new ObjectId(userId),
+        'products.item': new ObjectId(productId)
+      },
+      {
+        $inc: {
+          'products.$.quantity': -1
+        }
+      }
+    );
+    return { removeProduct: false };
+  }
+};
+
 
 
 module.exports = {
@@ -258,7 +304,7 @@ module.exports = {
       throw err;
     }
   },
-  
+ 
   
   
   
@@ -274,5 +320,9 @@ module.exports = {
         reject(err);
       }
     });
-  }
+  },
+    incrementQuantity,
+  decrementQuantity,
+
 };
+
